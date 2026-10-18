@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>E.C. Bernabe National High School – Senior High Enrollment</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Font: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+
+    /* Custom Stepper Component */
+    .stepper-item {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      color: #94a3b8;
+      padding: 0.25rem;
+      transition: all 0.2s ease;
+    }
+
+    .stepper-circle {
+      width: 1.75rem;
+      height: 1.75rem;
+      border-radius: 9999px;
+      background-color: #f1f5f9;
+      color: #64748b;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      font-weight: 700;
+      transition: all 0.2s ease;
+    }
+
+    .stepper-item.active {
+      color: #047857;
+      font-weight: 700;
+    }
+
+    .stepper-item.active .stepper-circle {
+      background-color: #059669;
+      color: #ffffff;
+      box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.2);
+    }
+
+    .stepper-item.completed {
+      color: #065f46;
+    }
+
+    .stepper-item.completed .stepper-circle {
+      background-color: #10b981;
+      color: #ffffff;
+    }
+
+    /* Form Controls */
+    .form-label {
+      display: block;
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: #334155;
+      margin-bottom: 0.35rem;
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 0.625rem 0.875rem;
+      border: 1px solid #cbd5e1;
+      border-radius: 0.5rem;
+      font-size: 0.875rem;
+      color: #1e293b;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .form-input:focus {
+      outline: none;
+      border-color: #059669;
+      box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.15);
+    }
+
+    /* Green & White Buttons */
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.625rem 1.25rem;
+      background-color: #059669;
+      color: #ffffff;
+      font-size: 0.875rem;
+      font-weight: 600;
+      border-radius: 0.5rem;
+      box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+      transition: all 0.15s ease;
+      cursor: pointer;
+    }
+
+    .btn-primary:hover {
+      background-color: #047857;
+    }
+
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.625rem 1.25rem;
+      background-color: #f1f5f9;
+      color: #334155;
+      font-size: 0.875rem;
+      font-weight: 600;
+      border: 1px solid #cbd5e1;
+      border-radius: 0.5rem;
+      transition: all 0.15s ease;
+      cursor: pointer;
+    }
+
+    .btn-secondary:hover {
+      background-color: #e2e8f0;
+    }
+
+    .btn-success {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.625rem 1.25rem;
+      background-color: #065f46;
+      color: #ffffff;
+      font-size: 0.875rem;
+      font-weight: 600;
+      border-radius: 0.5rem;
+      box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+      transition: all 0.15s ease;
+      cursor: pointer;
+    }
+
+    .btn-success:hover {
+      background-color: #022c22;
+    }
+
+    /* Review Values */
+    .review-label {
+      font-size: 0.75rem;
+      color: #64748b;
+      display: block;
+    }
+
+    .review-value {
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: #1e293b;
+    }
+
+    /* Admin & Teacher Dashboard Cards */
+    .stat-card {
+      background-color: #ffffff;
+      border: 1px solid rgba(226, 232, 240, 0.8);
+      padding: 1rem;
+      border-radius: 0.75rem;
+      box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.03);
+    }
+
+    .stat-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: #64748b;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      display: block;
+    }
+
+    .stat-value {
+      font-size: 1.5rem;
+      font-weight: 800;
+      margin-top: 0.25rem;
+      display: block;
+    }
+
+    /* Role Select Card Hover Effect */
+    .role-card {
+      transition: all 0.2s ease-in-out;
+    }
+    .role-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.08);
+    }
+
+    :focus-visible {
+      outline: 3px solid #059669;
+      outline-offset: 2px;
+    }
+
+    @media print {
+      .no-print { display: none !important; }
+      body { background: white !important; }
+      main { padding: 0 !important; }
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans min-h-screen flex flex-col antialiased">
+
+  <!-- Header Banner -->
+  <header class="bg-gradient-to-r from-emerald-900 via-green-800 to-emerald-950 text-white shadow-lg no-print sticky top-0 z-40">
+    <div class="max-w-5xl mx-auto px-4 py-3 flex flex-wrap justify-between items-center gap-3">
+      <div class="flex items-center gap-3 cursor-pointer" onclick="goToHome()">
+        <img src="logo.png.jpg" alt="ECBNHS Logo" class="w-11 h-11 object-contain drop-shadow-md" onerror="this.onerror=null; this.src='logo.jpg';">
+        <div>
+          <h1 class="text-lg sm:text-xl font-extrabold tracking-tight">E.C. Bernabe National High School</h1>
+          <p class="text-xs text-emerald-200 flex items-center gap-1.5 font-medium">
+            <span class="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+            Senior High School Online Portal
+          </p>
+        </div>
+      </div>
+      
+      <!-- Current Active Portal Badge -->
+      <div class="flex items-center gap-2">
+        <span id="activeRoleBadge" class="text-xs bg-emerald-800/80 text-emerald-100 border border-emerald-600 px-3 py-1.5 rounded-lg font-medium hidden sm:inline-block">
+          📍 Portal Home
+        </span>
+        <button onclick="goToHome()" class="text-xs bg-white/10 hover:bg-white/20 text-white px-3 py-1.5 rounded-lg font-semibold border border-white/20 transition-all cursor-pointer">
+          Switch Portal
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Wrapper -->
+  <main class="max-w-5xl mx-auto w-full px-4 py-8 flex-grow">
+
+    <!-- HOME / ROLE SELECTION VIEW -->
+    <section id="homePageView" class="space-y-8">
+      <div class="bg-white rounded-2xl shadow-sm border border-slate-200/80 p-8 sm:p-12 text-center space-y-6">
+        
+        <!-- School Seal Logo -->
+        <div class="flex justify-center">
+          <img src="logo.png.jpg" alt="E.C. Bernabe National High School Seal" class="w-28 sm:w-36 h-auto object-contain drop-shadow-md" onerror="this.onerror=null; this.src='logo.jpg';">
+        </div>
+        
+        <div class="space-y-2 max-w-2xl mx-auto">
+          <span class="px-3 py-1 bg-emerald-50 text-emerald-800 border border-emerald-200 text-xs font-bold rounded-full uppercase tracking-wider">
+            Academic School Year <span id="homeSYDisplay"></span>
+          </span>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+            Senior High School Enrollment Portal
+          </h2>
+          <p class="text-slate-600 text-sm sm:text-base leading-relaxed">
+            Welcome to E.C. Bernabe National High School. Please select your role below to proceed to your dedicated portal view.
+          </p>
+        </div>
+
+        <!-- ROLE SELECTION CARDS -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-5 pt-4 text-left">
+          
+          <!-- Student Card -->
+          <div onclick="selectRole('student')" class="role-card bg-slate-50 hover:bg-emerald-50/50 p-6 rounded-2xl border border-slate-200 hover:border-emerald-500 cursor-pointer flex flex-col justify-between space-y-4">
+            <div class="space-y-2">
+              <div class="w-12 h-12 rounded-xl bg-emerald-100 text-emerald-800 flex items-center justify-center text-2xl font-bold">
+                🎓
+              </div>
+              <h3 class="text-lg font-bold text-slate-800">Student Portal</h3>
+              <p class="text-xs text-slate-500 leading-relaxed">
+                Register as an incoming Grade 11 Senior High student, review details, and submit enrollment.
+              </p>
+            </div>
+            <span class="text-xs font-bold text-emerald-700 flex items-center gap-1">
+              Start Enrollment ➔
+            </span>
+          </div>
+
+          <!-- Teacher Card -->
+          <div onclick="selectRole('teacher')" class="role-card bg-slate-50 hover:bg-teal-50/50 p-6 rounded-2xl border border-slate-200 hover:border-teal-500 cursor-pointer flex flex-col justify-between space-y-4">
+            <div class="space-y-2">
+              <div class="w-12 h-12 rounded-xl bg-teal-100 text-teal-800 flex items-center justify-center text-2xl font-bold">
+                👨‍🏫
+              </div>
+              <h3 class="text-lg font-bold text-slate-800">Teacher Portal</h3>
+              <p class="text-xs text-slate-500 leading-relaxed">
+                View real-time track statistics, enrolled student rosters, and verify track allocations.
+              </p>
+            </div>
+            <span class="text-xs font-bold text-teal-700 flex items-center gap-1">
+              View Class Roster ➔
+            </span>
+          </div>
+
+          <!-- Admin Card -->
+          <div onclick="selectRole('admin')" class="role-card bg-slate-50 hover:bg-emerald-950/5 p-6 rounded-2xl border border-slate-200 hover:border-emerald-900 cursor-pointer flex flex-col justify-between space-y-4">
+            <div class="space-y-2">
+              <div class="w-12 h-12 rounded-xl bg-emerald-900 text-white flex items-center justify-center text-2xl font-bold">
+                🛡️
+              </div>
+              <h3 class="text-lg font-bold text-slate-800">Admin Control</h3>
+              <p class="text-xs text-slate-500 leading-relaxed">
+                Full administrative access to manage student data, generate test samples, and system resets.
+              </p>
+            </div>
+            <span class="text-xs font-bold text-emerald-900 flex items-center gap-1">
+              Access Admin Console ➔
+            </span>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- STUDENT ENROLLMENT FLOW VIEW -->
+    <div id="studentPortalView" class="hidden space-y-6">
+
+      <!-- Stepper Progress Indicator -->
+      <nav id="stepIndicator" class="bg-white p-4 rounded-xl shadow-sm border border-slate-200/80 no-print" aria-label="Enrollment Progress">
+        <ol class="grid grid-cols-3 text-xs sm:text-sm font-semibold">
+          <li id="step1-tab" class="stepper-item active">
+            <div class="stepper-circle">1</div>
+            <span class="hidden sm:inline">Fill Form</span>
+            <span class="sm:hidden">Form</span>
+          </li>
+          <li id="step2-tab" class="stepper-item">
+            <div class="stepper-circle">2</div>
+            <span class="hidden sm:inline">Review Details</span>
+            <span class="sm:hidden">Review</span>
+          </li>
+          <li id="step3-tab" class="stepper-item">
+            <div class="stepper-circle">3</div>
+            <span class="hidden sm:inline">Confirmation</span>
+            <span class="sm:hidden">Done</span>
+          </li>
+        </ol>
+      </nav>
+
+      <!-- Step 1: Fill Out Form -->
+      <section id="stepForm" class="bg-white rounded-xl shadow-sm border border-slate-200/80 p-6 sm:p-8 space-y-6">
+        <div class="border-b border-slate-100 pb-4 flex justify-between items-center">
+          <div>
+            <h2 class="text-xl font-bold text-slate-800">Student Enrollment Form</h2>
+            <p class="text-xs text-slate-500 mt-1">Please fill in all the required information accurately.</p>
+          </div>
+          <button type="button" onclick="goToHome()" class="text-xs text-slate-500 hover:text-emerald-700 underline cursor-pointer">← Back to Portal Select</button>
+        </div>
+        
+        <form id="enrollmentForm" onsubmit="handleFormReview(event)" class="space-y-5">
+          <!-- Auto-generated School Year Badge -->
+          <div class="bg-gradient-to-r from-emerald-50 to-green-50 border border-emerald-200/80 p-4 rounded-lg flex items-center gap-3">
+            <span class="text-xl">📅</span>
+            <div>
+              <span class="text-xs uppercase tracking-wider font-semibold text-emerald-800 block">Assigned School Year</span>
+              <span id="schoolYearDisplay" class="text-base font-bold text-emerald-950"></span>
+              <span class="text-xs text-emerald-700 block sm:inline sm:ml-2 font-normal">(Automatically locked to current calendar year)</span>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <!-- Full Name -->
+            <div class="sm:col-span-2">
+              <label for="fullName" class="form-label">Full Name <span class="text-rose-500">*</span></label>
+              <input type="text" id="fullName" required placeholder="e.g. Juan Dela Cruz" class="form-input">
+            </div>
+
+            <!-- Date of Birth -->
+            <div>
+              <label for="dob" class="form-label">Date of Birth <span class="text-rose-500">*</span></label>
+              <input type="date" id="dob" required class="form-input">
+            </div>
+
+            <!-- LRN -->
+            <div>
+              <label for="lrn" class="form-label">Learner Reference Number (LRN) <span class="text-rose-500">*</span></label>
+              <input type="text" id="lrn" required pattern="[0-9]{12}" maxlength="12" placeholder="12-digit LRN" class="form-input">
+            </div>
+
+            <!-- Address -->
+            <div class="sm:col-span-2">
+              <label for="address" class="form-label">Complete Address <span class="text-rose-500">*</span></label>
+              <textarea id="address" rows="2" required placeholder="House No., Street, Barangay, City/Municipality" class="form-input"></textarea>
+            </div>
+
+            <!-- Parent / Guardian Name -->
+            <div>
+              <label for="guardianName" class="form-label">Parent / Guardian Name <span class="text-rose-500">*</span></label>
+              <input type="text" id="guardianName" required placeholder="Full name of parent/guardian" class="form-input">
+            </div>
+
+            <!-- Parent / Guardian Contact -->
+            <div>
+              <label for="guardianContact" class="form-label">Parent / Guardian Contact <span class="text-rose-500">*</span></label>
+              <input type="tel" id="guardianContact" required placeholder="09123456789" class="form-input">
+            </div>
+
+            <!-- Preferred Track Selection -->
+            <div class="sm:col-span-2">
+              <label for="preferredTrack" class="form-label">Preferred Senior High Track <span class="text-rose-500">*</span></label>
+              <select id="preferredTrack" required class="form-input bg-white">
+                <option value="" disabled selected>-- Select Senior High Track --</option>
+                <option value="Academic Track">Academic Track</option>
+                <option value="TechPro Track">TechPro Track</option>
+              </select>
+            </div>
+
+            <!-- Student Photo Upload Component -->
+            <div class="sm:col-span-2 border-t border-slate-100 pt-5">
+              <label class="form-label">Student Photo ID <span class="text-rose-500">*</span></label>
+              <p class="text-xs text-slate-500 mb-3">Upload a clear 2x2 front-facing ID image (JPG, JPEG, PNG format).</p>
+              
+              <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4 bg-slate-50 p-4 rounded-lg border border-dashed border-slate-300">
+                <input type="file" id="photoInput" accept="image/jpeg, image/jpg, image/png" onchange="previewPhoto(event)" class="hidden">
+                <button type="button" onclick="document.getElementById('photoInput').click()" class="btn-secondary text-xs">
+                  📁 Choose Photo File
+                </button>
+                
+                <div id="photoPreviewContainer" class="hidden flex items-center gap-3">
+                  <img id="photoPreview" src="" alt="Student photo preview" class="w-16 h-16 object-cover rounded-lg border border-slate-300 shadow-sm">
+                  <div>
+                    <span class="text-xs text-emerald-700 font-bold block flex items-center gap-1">
+                      ✓ Photo Selected
+                    </span>
+                    <button type="button" onclick="document.getElementById('photoInput').click()" class="text-xs text-emerald-700 hover:underline">
+                      Replace photo
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="pt-4 border-t border-slate-100 flex justify-end">
+            <button type="submit" class="btn-primary w-full sm:w-auto">
+              Proceed to Review ➔
+            </button>
+          </div>
+        </form>
+      </section>
+
+      <!-- Step 2: Review Card -->
+      <section id="stepReview" class="hidden bg-white rounded-xl shadow-sm border border-slate-200/80 p-6 sm:p-8 space-y-6">
+        <div class="border-b border-slate-100 pb-4">
+          <h2 class="text-xl font-bold text-slate-800">Review Your Enrollment Details</h2>
+          <p class="text-xs text-slate-500 mt-1">Check for any typos or mistakes before final submission.</p>
+        </div>
+
+        <div class="bg-slate-50/80 rounded-xl p-5 border border-slate-200/80 space-y-4">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-slate-200 gap-4">
+            <div>
+              <span class="text-xs uppercase text-slate-400 font-bold tracking-wider">Target School Year</span>
+              <p id="revSchoolYear" class="text-lg font-bold text-emerald-900"></p>
+            </div>
+            <div id="revPhotoWrapper" class="shrink-0">
+              <img id="revPhoto" src="" alt="Student photo" class="w-24 h-24 object-cover rounded-xl border-2 border-white shadow-md">
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
+            <div>
+              <span class="review-label">Full Name</span>
+              <span id="revFullName" class="review-value"></span>
+            </div>
+            <div>
+              <span class="review-label">Learner Reference Number (LRN)</span>
+              <span id="revLrn" class="review-value"></span>
+            </div>
+            <div>
+              <span class="review-label">Date of Birth</span>
+              <span id="revDob" class="review-value"></span>
+            </div>
+            <div>
+              <span class="review-label">Preferred Track</span>
+              <span id="revTrack" class="review-value text-emerald-800"></span>
+            </div>
+            <div class="sm:col-span-2">
+              <span class="review-label">Address</span>
+              <span id="revAddress" class="review-value"></span>
+            </div>
+            <div>
+              <span class="review-label">Parent / Guardian Name</span>
+              <span id="revGuardianName" class="review-value"></span>
+            </div>
+            <div>
+              <span class="review-label">Parent / Guardian Contact</span>
+              <span id="revGuardianContact" class="review-value"></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex flex-col sm:flex-row justify-between gap-3 pt-2">
+          <button type="button" onclick="goToStep(1)" class="btn-secondary">
+            ✏️ Edit Information
+          </button>
+          <button type="button" onclick="submitEnrollment()" class="btn-success">
+            Confirm & Submit Registration ✓
+          </button>
+        </div>
+      </section>
+
+      <!-- Step 3: Confirmation -->
+      <section id="stepConfirmation" class="hidden bg-white rounded-xl shadow-sm border border-slate-200/80 p-8 text-center space-y-6">
+        <div class="w-16 h-16 bg-emerald-100 text-emerald-700 rounded-full flex items-center justify-center mx-auto text-3xl shadow-sm">
+          ✓
+        </div>
+        <div>
+          <h2 class="text-2xl font-bold text-slate-800">Enrollment Submitted Successfully!</h2>
+          <p class="text-slate-500 text-sm mt-1">Your registration has been saved to the school database system.</p>
+        </div>
+
+        <div class="max-w-md mx-auto bg-gradient-to-br from-slate-50 to-emerald-50/40 border border-emerald-100 rounded-xl p-6 text-left space-y-4 shadow-sm">
+          <div>
+            <span class="text-xs uppercase tracking-wider text-slate-400 font-bold block">Enrollment Reference Number</span>
+            <span id="confRefNum" class="text-lg sm:text-xl font-extrabold text-emerald-950 tracking-wider"></span>
+          </div>
+          <hr class="border-slate-200">
+          <div class="grid grid-cols-2 gap-3 text-sm">
+            <div>
+              <span class="review-label">Student Name</span>
+              <span id="confName" class="review-value"></span>
+            </div>
+            <div>
+              <span class="review-label">School Year</span>
+              <span id="confSY" class="review-value"></span>
+            </div>
+            <div class="col-span-2">
+              <span class="review-label">Assigned Track</span>
+              <span id="confTrack" class="review-value text-emerald-800"></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex flex-col sm:flex-row justify-center gap-3 no-print pt-2">
+          <button onclick="window.print()" class="btn-secondary">
+            🖨️ Print Confirmation
+          </button>
+          <button onclick="goToHome()" class="btn-primary">
+            Return to Homepage
+          </button>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- TEACHER / FACULTY PORTAL VIEW -->
+    <div id="teacherPortalView" class="hidden space-y-6">
+      <div class="bg-teal-900 text-white p-5 rounded-xl shadow-sm flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+        <div>
+          <h2 class="text-lg font-bold flex items-center gap-2">
+            <span>👨‍🏫</span> Faculty & Adviser Dashboard
+          </h2>
+          <p class="text-xs text-teal-200">Track allocations and class roster viewer for Senior High Faculty</p>
+        </div>
+        <button onclick="goToHome()" class="text-xs bg-teal-800 hover:bg-teal-700 text-white px-3 py-1.5 rounded-lg border border-teal-600 transition cursor-pointer">
+          Switch Role
+        </button>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div class="stat-card border-teal-200">
+          <span class="stat-label">Total Enrolled Students</span>
+          <span id="teacherStatTotal" class="stat-value text-teal-800">0</span>
+        </div>
+        <div class="stat-card border-teal-200">
+          <span class="stat-label">Academic Track Roster</span>
+          <span id="teacherStatAcademic" class="stat-value text-emerald-700">0</span>
+        </div>
+        <div class="stat-card border-teal-200">
+          <span class="stat-label">TechPro Track Roster</span>
+          <span id="teacherStatTechPro" class="stat-value text-teal-700">0</span>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 space-y-4">
+        <div class="flex flex-col sm:flex-row justify-between gap-3">
+          <input type="text" id="teacherSearch" oninput="renderTeacherTable()" placeholder="🔍 Filter student roster..." class="form-input text-sm w-full sm:w-72">
+        </div>
+
+        <div class="overflow-x-auto rounded-lg border border-slate-200">
+          <table class="w-full text-left text-xs sm:text-sm text-slate-700">
+            <thead class="bg-slate-100/80 text-slate-600 font-bold uppercase tracking-wider text-xs border-b">
+              <tr>
+                <th class="p-3">Student Name</th>
+                <th class="p-3">LRN</th>
+                <th class="p-3">Track</th>
+                <th class="p-3">Guardian Name</th>
+                <th class="p-3">Contact</th>
+                <th class="p-3 text-center">Status</th>
+              </tr>
+            </thead>
+            <tbody id="teacherTableBody" class="divide-y divide-slate-200/80 bg-white">
+              <!-- Dynamically Populated -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ADMIN DASHBOARD PANEL VIEW -->
+    <div id="adminPortalView" class="hidden space-y-6">
+      
+      <!-- Admin Top Banner -->
+      <div class="bg-emerald-950 text-white p-5 rounded-xl shadow-sm flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+        <div>
+          <h2 class="text-lg font-bold flex items-center gap-2">
+            <span>🛡️</span> Administrator Control Center
+          </h2>
+          <p class="text-xs text-emerald-300">Manage, search, and verify submitted student applications</p>
+        </div>
+        <button onclick="goToHome()" class="text-xs bg-emerald-900 hover:bg-emerald-800 text-white px-3 py-1.5 rounded-lg border border-emerald-700 transition cursor-pointer">
+          Switch Role
+        </button>
+      </div>
+
+      <!-- Quick Metrics Analytics Cards -->
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div class="stat-card">
+          <span class="stat-label">Total Applicants</span>
+          <span id="statTotal" class="stat-value text-emerald-800">0</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-label">Academic Track</span>
+          <span id="statAcademic" class="stat-value text-emerald-700">0</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-label">TechPro Track</span>
+          <span id="statTechPro" class="stat-value text-teal-700">0</span>
+        </div>
+      </div>
+
+      <!-- Table Section -->
+      <div class="bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 space-y-4">
+        <div class="flex flex-col sm:flex-row justify-between gap-3">
+          <input type="text" id="adminSearch" oninput="renderAdminTable()" placeholder="🔍 Search name, LRN, reference..." class="form-input text-sm w-full sm:w-72">
+          
+          <div class="flex gap-2">
+            <button onclick="seedSampleData()" class="btn-secondary text-xs">
+              + Add Sample Applicants
+            </button>
+            <button onclick="clearAllData()" class="px-3 py-2 bg-rose-50 hover:bg-rose-100 text-rose-700 text-xs font-semibold rounded-lg border border-rose-200 transition cursor-pointer">
+              Clear Records
+            </button>
+          </div>
+        </div>
+
+        <div class="overflow-x-auto rounded-lg border border-slate-200">
+          <table class="w-full text-left text-xs sm:text-sm text-slate-700">
+            <thead class="bg-slate-100/80 text-slate-600 font-bold uppercase tracking-wider text-xs border-b">
+              <tr>
+                <th class="p-3">Reference Number</th>
+                <th class="p-3">Full Name</th>
+                <th class="p-3">LRN</th>
+                <th class="p-3">Track</th>
+                <th class="p-3">School Year</th>
+                <th class="p-3">Date Submitted</th>
+                <th class="p-3 text-center">Action</th>
+              </tr>
+            </thead>
+            <tbody id="adminTableBody" class="divide-y divide-slate-200/80 bg-white">
+              <!-- Dynamically Populated -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Record Details Modal -->
+  <div id="recordModal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+    <div class="bg-white rounded-xl shadow-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto p-6 relative">
+      <h3 class="text-lg font-bold text-slate-800 border-b pb-3 mb-4 flex items-center gap-2">
+        <span>📄</span> Student Profile Details
+      </h3>
+      <div id="modalContent" class="space-y-4 text-sm">
+        <!-- Filled via JS -->
+      </div>
+      <div class="mt-6 flex justify-end border-t pt-4">
+        <button onclick="closeModal()" class="btn-secondary">
+          Close Window
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- JavaScript Logic -->
+  <script>
+    let currentPhotoBase64 = '';
+    let currentFormData = {};
+
+    function getAutoSchoolYear() {
+      const currentYear = new Date().getFullYear();
+      return `${currentYear}–${currentYear + 1}`;
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const sy = getAutoSchoolYear();
+      document.getElementById('schoolYearDisplay').textContent = sy;
+      document.getElementById('homeSYDisplay').textContent = sy;
+    });
+
+    // Role Selection Logic
+    function selectRole(role) {
+      document.getElementById('homePageView').classList.add('hidden');
+      document.getElementById('studentPortalView').classList.add('hidden');
+      document.getElementById('teacherPortalView').classList.add('hidden');
+      document.getElementById('adminPortalView').classList.add('hidden');
+
+      const badge = document.getElementById('activeRoleBadge');
+
+      if (role === 'student') {
+        document.getElementById('studentPortalView').classList.remove('hidden');
+        badge.textContent = "📍 Student Portal";
+        goToStep(1);
+      } else if (role === 'teacher') {
+        document.getElementById('teacherPortalView').classList.remove('hidden');
+        badge.textContent = "📍 Teacher Portal";
+        renderTeacherTable();
+      } else if (role === 'admin') {
+        document.getElementById('adminPortalView').classList.remove('hidden');
+        badge.textContent = "📍 Admin Console";
+        renderAdminTable();
+      }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function goToHome() {
+      document.getElementById('homePageView').classList.remove('hidden');
+      document.getElementById('studentPortalView').classList.add('hidden');
+      document.getElementById('teacherPortalView').classList.add('hidden');
+      document.getElementById('adminPortalView').classList.add('hidden');
+      document.getElementById('activeRoleBadge').textContent = "📍 Portal Home";
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function previewPhoto(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      if (file.size > 2 * 1024 * 1024) {
+        alert("File size exceeds 2MB limit. Please choose a smaller image.");
+        event.target.value = '';
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        currentPhotoBase64 = e.target.result;
+        document.getElementById('photoPreview').src = currentPhotoBase64;
+        document.getElementById('photoPreviewContainer').classList.remove('hidden');
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function goToStep(stepNumber) {
+      document.getElementById('stepForm').classList.toggle('hidden', stepNumber !== 1);
+      document.getElementById('stepReview').classList.toggle('hidden', stepNumber !== 2);
+      document.getElementById('stepConfirmation').classList.toggle('hidden', stepNumber !== 3);
+
+      const steps = [1, 2, 3];
+      steps.forEach(s => {
+        const tab = document.getElementById(`step${s}-tab`);
+        tab.className = "stepper-item";
+        if (s === stepNumber) {
+          tab.classList.add("active");
+        } else if (s < stepNumber) {
+          tab.classList.add("completed");
+        }
+      });
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function handleFormReview(event) {
+      event.preventDefault();
+
+      if (!currentPhotoBase64) {
+        alert("Please attach a student photo before proceeding.");
+        return;
+      }
+
+      currentFormData = {
+        fullName: document.getElementById('fullName').value.trim(),
+        dob: document.getElementById('dob').value,
+        lrn: document.getElementById('lrn').value.trim(),
+        address: document.getElementById('address').value.trim(),
+        guardianName: document.getElementById('guardianName').value.trim(),
+        guardianContact: document.getElementById('guardianContact').value.trim(),
+        preferredTrack: document.getElementById('preferredTrack').value,
+        schoolYear: getAutoSchoolYear(),
+        photo: currentPhotoBase64
+      };
+
+      document.getElementById('revSchoolYear').textContent = currentFormData.schoolYear;
+      document.getElementById('revFullName').textContent = currentFormData.fullName;
+      document.getElementById('revLrn').textContent = currentFormData.lrn;
+      document.getElementById('revDob').textContent = currentFormData.dob;
+      document.getElementById('revAddress').textContent = currentFormData.address;
+      document.getElementById('revGuardianName').textContent = currentFormData.guardianName;
+      document.getElementById('revGuardianContact').textContent = currentFormData.guardianContact;
+      document.getElementById('revTrack').textContent = currentFormData.preferredTrack;
+      document.getElementById('revPhoto').src = currentFormData.photo;
+
+      goToStep(2);
+    }
+
+    function generateReferenceNumber() {
+      const year = new Date().getFullYear();
+      let records = JSON.parse(localStorage.getItem('ecbnhs_enrollments') || '[]');
+      
+      const yearRecords = records.filter(r => r.referenceNumber.startsWith(`ENROLLMENT RECORD-${year}`));
+      const seq = (yearRecords.length + 1).toString().padStart(4, '0');
+      
+      return `ENROLLMENT RECORD-${year}-${seq}`;
+    }
+
+    function submitEnrollment() {
+      const refNum = generateReferenceNumber();
+      const newRecord = {
+        ...currentFormData,
+        referenceNumber: refNum,
+        dateSubmitted: new Date().toLocaleString()
+      };
+
+      let records = JSON.parse(localStorage.getItem('ecbnhs_enrollments') || '[]');
+      records.push(newRecord);
+      localStorage.setItem('ecbnhs_enrollments', JSON.stringify(records));
+
+      document.getElementById('confRefNum').textContent = newRecord.referenceNumber;
+      document.getElementById('confName').textContent = newRecord.fullName;
+      document.getElementById('confSY').textContent = newRecord.schoolYear;
+      document.getElementById('confTrack').textContent = newRecord.preferredTrack;
+
+      goToStep(3);
+    }
+
+    // Render Teacher Table View
+    function renderTeacherTable() {
+      const tbody = document.getElementById('teacherTableBody');
+      const search = document.getElementById('teacherSearch').value.toLowerCase();
+      let records = JSON.parse(localStorage.getItem('ecbnhs_enrollments') || '[]');
+
+      document.getElementById('teacherStatTotal').textContent = records.length;
+      document.getElementById('teacherStatAcademic').textContent = records.filter(r => r.preferredTrack === 'Academic Track').length;
+      document.getElementById('teacherStatTechPro').textContent = records.filter(r => r.preferredTrack === 'TechPro Track').length;
+
+      const filtered = records.filter(r => 
+        r.fullName.toLowerCase().includes(search) || 
+        r.lrn.includes(search) || 
+        r.preferredTrack.toLowerCase().includes(search)
+      );
+
+      if (filtered.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="6" class="p-6 text-center text-slate-400">No student roster entries found.</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = filtered.map(r => `
+        <tr class="hover:bg-slate-50/80 transition">
+          <td class="p-3 font-semibold text-slate-800">${r.fullName}</td>
+          <td class="p-3 text-slate-600">${r.lrn}</td>
+          <td class="p-3">
+            <span class="px-2 py-1 text-xs font-semibold rounded-full ${r.preferredTrack === 'Academic Track' ? 'bg-emerald-100 text-emerald-800' : 'bg-teal-100 text-teal-800'}">
+              ${r.preferredTrack}
+            </span>
+          </td>
+          <td class="p-3 text-slate-600">${r.guardianName}</td>
+          <td class="p-3 text-slate-600">${r.guardianContact}</td>
+          <td class="p-3 text-center">
+            <span class="px-2 py-0.5 text-xs font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 rounded">Enrolled</span>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    // Render Admin Dashboard Table & Analytics
+    function renderAdminTable() {
+      const tbody = document.getElementById('adminTableBody');
+      const search = document.getElementById('adminSearch').value.toLowerCase();
+      let records = JSON.parse(localStorage.getItem('ecbnhs_enrollments') || '[]');
+
+      document.getElementById('statTotal').textContent = records.length;
+      document.getElementById('statAcademic').textContent = records.filter(r => r.preferredTrack === 'Academic Track').length;
+      document.getElementById('statTechPro').textContent = records.filter(r => r.preferredTrack === 'TechPro Track').length;
+
+      const filtered = records.filter(r => 
+        r.fullName.toLowerCase().includes(search) || 
+        r.lrn.includes(search) || 
+        r.referenceNumber.toLowerCase().includes(search)
+      );
+
+      if (filtered.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="7" class="p-6 text-center text-slate-400">No enrollment applications found.</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = filtered.map((r, i) => `
+        <tr class="hover:bg-slate-50/80 transition">
+          <td class="p-3 font-semibold text-emerald-950">${r.referenceNumber}</td>
+          <td class="p-3 font-medium text-slate-800">${r.fullName}</td>
+          <td class="p-3 text-slate-600">${r.lrn}</td>
+          <td class="p-3">
+            <span class="px-2 py-1 text-xs font-semibold rounded-full ${r.preferredTrack === 'Academic Track' ? 'bg-emerald-100 text-emerald-800' : 'bg-teal-100 text-teal-800'}">
+              ${r.preferredTrack}
+            </span>
+          </td>
+          <td class="p-3 text-slate-600">${r.schoolYear}</td>
+          <td class="p-3 text-xs text-slate-400">${r.dateSubmitted}</td>
+          <td class="p-3 text-center">
+            <button onclick="viewRecordDetails(${i})" class="px-2.5 py-1 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 font-semibold rounded-md border border-emerald-200 transition text-xs cursor-pointer">
+              View
+            </button>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    function viewRecordDetails(index) {
+      let records = JSON.parse(localStorage.getItem('ecbnhs_enrollments') || '[]');
+      const r = records[index];
+      if (!r) return;
+
+      const modalContent = document.getElementById('modalContent');
+      modalContent.innerHTML = `
+        <div class="flex justify-center mb-2">
+          <img src="${r.photo}" alt="Student Photo" class="w-28 h-28 object-cover rounded-xl border-2 border-slate-200 shadow-sm">
+        </div>
+        <div class="grid grid-cols-2 gap-3 text-slate-700 bg-slate-50 p-4 rounded-lg border border-slate-200/80">
+          <div><span class="review-label">Reference ID:</span> <strong>${r.referenceNumber}</strong></div>
+          <div><span class="review-label">School Year:</span> <strong>${r.schoolYear}</strong></div>
+          <div><span class="review-label">Full Name:</span> <strong>${r.fullName}</strong></div>
+          <div><span class="review-label">LRN:</span> <strong>${r.lrn}</strong></div>
+          <div><span class="review-label">Date of Birth:</span> <strong>${r.dob}</strong></div>
+          <div><span class="review-label">Track:</span> <strong>${r.preferredTrack}</strong></div>
+          <div class="col-span-2"><span class="review-label">Address:</span> <strong>${r.address}</strong></div>
+          <div><span class="review-label">Guardian Name:</span> <strong>${r.guardianName}</strong></div>
+          <div><span class="review-label">Guardian Contact:</span> <strong>${r.guardianContact}</strong></div>
+        </div>
+      `;
+
+      document.getElementById('recordModal').classList.remove('hidden');
+    }
+
+    function closeModal() {
+      document.getElementById('recordModal').classList.add('hidden');
+    }
+
+    function seedSampleData() {
+      const year = new Date().getFullYear();
+      const samples = [
+        {
+          referenceNumber: `ENROLLMENT RECORD-${year}-0001`,
+          fullName: 'Maria Santos',
+          dob: '2008-05-14',
+          lrn: '123456789012',
+          address: 'Poblacion, Cordova, Cebu',
+          guardianName: 'Ana Santos',
+          guardianContact: '09171234567',
+          preferredTrack: 'Academic Track',
+          schoolYear: `${year}–${year + 1}`,
+          photo: 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><rect width="100%" height="100%" fill="%23059669"/><text x="50%" y="55%" fill="white" font-size="28" font-family="sans-serif" text-anchor="middle">MS</text></svg>',
+          dateSubmitted: new Date().toLocaleString()
+        },
+        {
+          referenceNumber: `ENROLLMENT RECORD-${year}-0002`,
+          fullName: 'John Mark Reyes',
+          dob: '2007-11-20',
+          lrn: '987654321098',
+          address: 'Alegria, Cordova, Cebu',
+          guardianName: 'Roberto Reyes',
+          guardianContact: '09189876543',
+          preferredTrack: 'TechPro Track',
+          schoolYear: `${year}–${year + 1}`,
+          photo: 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><rect width="100%" height="100%" fill="%23047857"/><text x="50%" y="55%" fill="white" font-size="28" font-family="sans-serif" text-anchor="middle">JR</text></svg>',
+          dateSubmitted: new Date().toLocaleString()
+        }
+      ];
+
+      localStorage.setItem('ecbnhs_enrollments', JSON.stringify(samples));
+      renderAdminTable();
+      renderTeacherTable();
+    }
+
+    function clearAllData() {
+      if (confirm('Clear all stored test evaluation records?')) {
+        localStorage.removeItem('ecbnhs_enrollments');
+        renderAdminTable();
+        renderTeacherTable();
+      }
+    }
+  </script>
+</body>
+</html>
